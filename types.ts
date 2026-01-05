@@ -1,0 +1,37 @@
+
+export interface Store {
+  id: string;
+  name: string;
+  logo: string;
+  cover: string;
+  rating: number;
+  reviewsCount: number;
+  deliveryTime: string;
+  deliveryFee: number;
+  category: string;
+  isOpen: boolean;
+}
+
+export interface Product {
+  id: string;
+  storeId: string;
+  name: string;
+  description: string;
+  price: number;
+  originalPrice?: number;
+  image: string;
+  category: string;
+  isPromotion?: boolean;
+  isNew?: boolean;
+}
+
+export interface Category {
+  id: string;
+  label: string;
+  icon: string;
+  colorClass: string;
+}
+
+export interface CartItem extends Product {
+  quantity: number;
+}

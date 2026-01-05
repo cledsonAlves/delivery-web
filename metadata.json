@@ -1,0 +1,7 @@
+{
+  "name": "Jarinu Shop",
+  "description": "Uma plataforma de marketplace local para a cidade de Jarinu, conectando moradores a lojas e serviços com entrega rápida.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
