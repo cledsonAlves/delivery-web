@@ -60,10 +60,15 @@ export async function obterLojista(lojistaId: string) {
   return await apiRequest<any>('GET', `/lojistas/${lojistaId}`);
 }
 
+export async function listarImagensProduto(produtoId: string) {
+  return await apiRequest<any[]>('GET', `/produto-imagens?produto_id=${produtoId}`);
+}
+
 export default {
   API_URL,
   apiRequest,
   listarProdutos,
   obterProduto,
   criarProduto,
+  listarImagensProduto,
 };

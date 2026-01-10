@@ -21,7 +21,50 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
       setLoading(true);
       try {
         const res = await api.listarProdutos({ skip: 0, limit: 50 });
-        if (mounted) setProducts(res || []);
+        if (mounted && res && res.length > 0) {
+          // Carregar imagens para cada produto
+          const produtosComImagens = await Promise.all(
+            res.map(async (produto: any) => {
+              try {
+                const imagens = await api.listarImagensProduto(produto.id);
+                const imagemPrincipal = imagens?.find((img: any) => img.principal);
+                
+                // Mapear campos da API (português) para o tipo Product (inglês)
+                return {
+                  id: produto.id,
+                  storeId: produto.lojista_id,
+                  name: produto.nome,
+                  description: produto.descricao || '',
+                  price: parseFloat(produto.preco) || 0,
+                  originalPrice: produto.preco_promocional ? parseFloat(produto.preco) : undefined,
+                  image: imagemPrincipal?.url || produto.imagem_url || 'https://via.placeholder.com/400',
+                  imagens: imagens || [],
+                  category: produto.categoria_id || '',
+                  isPromotion: !!produto.preco_promocional,
+                  isNew: false,
+                };
+              } catch (err) {
+                console.error(`Erro ao carregar imagens do produto ${produto.id}:`, err);
+                return {
+                  id: produto.id,
+                  storeId: produto.lojista_id,
+                  name: produto.nome,
+                  description: produto.descricao || '',
+                  price: parseFloat(produto.preco) || 0,
+                  originalPrice: produto.preco_promocional ? parseFloat(produto.preco) : undefined,
+                  image: produto.imagem_url || 'https://via.placeholder.com/400',
+                  imagens: [],
+                  category: produto.categoria_id || '',
+                  isPromotion: !!produto.preco_promocional,
+                  isNew: false,
+                };
+              }
+            })
+          );
+          setProducts(produtosComImagens);
+        } else if (mounted) {
+          setProducts([]);
+        }
       } catch (err) {
         console.error('Erro ao carregar produtos:', err);
         if (mounted) setProducts([]);

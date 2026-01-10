@@ -63,7 +63,7 @@ const Checkout: React.FC<CheckoutProps> = ({ cart, updateQuantity, removeItem })
                           <span className="material-symbols-outlined text-[22px]">delete</span>
                         </button>
                       </div>
-                      <p className="text-xs text-text-muted font-medium mt-1">Item de Jarinu Shop</p>
+                      <p className="text-xs text-text-muted font-medium mt-1">Item de Regional Shop</p>
                     </div>
                     <div className="flex items-end justify-between mt-4">
                       <p className="text-xl font-black text-primary">R$ {item.price.toFixed(2).replace('.', ',')}</p>

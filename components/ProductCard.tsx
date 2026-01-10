@@ -49,7 +49,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAdd }) => {
               </span>
             )}
             <span className="text-lg font-extrabold text-primary">
-              R$ {product.price}
+              R$ {typeof product.price === 'number' ? product.price.toFixed(2).replace('.', ',') : product.price}
             </span>
           </div>
           <button 

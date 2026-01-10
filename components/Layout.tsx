@@ -21,7 +21,7 @@ const Layout: React.FC<LayoutProps> = ({ children, cartCount }) => {
             <div className="size-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/30 transition-transform group-hover:scale-110">
               <span className="material-symbols-outlined filled">storefront</span>
             </div>
-            <h1 className="text-xl font-extrabold tracking-tight text-text-main dark:text-white hidden sm:block">Jarinu Shop</h1>
+            <h1 className="text-xl font-extrabold tracking-tight text-text-main dark:text-white hidden sm:block">Regional Shop</h1>
           </Link>
 
           {/* Location & Search */}
@@ -81,7 +81,7 @@ const Layout: React.FC<LayoutProps> = ({ children, cartCount }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center gap-6">
           <div className="flex items-center gap-2 opacity-50">
             <span className="material-symbols-outlined text-primary">storefront</span>
-            <span className="font-bold">Jarinu Shop</span>
+            <span className="font-bold">Regional Shop</span>
           </div>
           <div className="flex gap-8 text-sm font-medium text-text-muted">
             <Link to="/" className="hover:text-primary">Início</Link>
@@ -89,7 +89,7 @@ const Layout: React.FC<LayoutProps> = ({ children, cartCount }) => {
             <Link to="/orders" className="hover:text-primary">Meus Pedidos</Link>
             <Link to="/help" className="hover:text-primary">Ajuda</Link>
           </div>
-          <p className="text-xs text-text-muted opacity-60">© 2024 Jarinu Shop. Feito com ❤️ para nossa cidade.</p>
+          <p className="text-xs text-text-muted opacity-60">© 2024 Regional Shop. Feito com ❤️ para nossa cidade.</p>
         </div>
       </footer>
     </div>

@@ -12,6 +12,14 @@ export interface Store {
   isOpen: boolean;
 }
 
+export interface ProdutoImagem {
+  id: string;
+  produto_id: string;
+  url: string;
+  principal: boolean;
+  ordem: number;
+}
+
 export interface Product {
   id: string;
   storeId: string;
@@ -20,6 +28,7 @@ export interface Product {
   price: number;
   originalPrice?: number;
   image: string;
+  imagens?: ProdutoImagem[];
   category: string;
   isPromotion?: boolean;
   isNew?: boolean;
