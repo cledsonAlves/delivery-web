@@ -1,9 +1,10 @@
 
-import React, { useState } from 'react';
-import { CATEGORIES, MOCK_STORES, MOCK_PRODUCTS } from '../constants';
+import React, { useEffect, useState } from 'react';
+import { CATEGORIES, MOCK_STORES } from '../constants';
 import StoreCard from '../components/StoreCard';
 import ProductCard from '../components/ProductCard';
 import { Product } from '../types';
+import api from '../services/api';
 
 interface HomeProps {
   addToCart: (product: Product) => void;
@@ -11,6 +12,26 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({ addToCart }) => {
   const [search, setSearch] = useState('');
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    let mounted = true;
+    async function load() {
+      setLoading(true);
+      try {
+        const res = await api.listarProdutos({ skip: 0, limit: 50 });
+        if (mounted) setProducts(res || []);
+      } catch (err) {
+        console.error('Erro ao carregar produtos:', err);
+        if (mounted) setProducts([]);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
+    load();
+    return () => { mounted = false; };
+  }, []);
 
   return (
     <div className="pb-12">
@@ -94,13 +115,19 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <h3 className="text-2xl font-black text-text-main dark:text-white mb-8 px-2">Destaques da Cidade</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-          {MOCK_PRODUCTS.map((product) => (
-            <ProductCard 
-              key={product.id} 
-              product={product} 
-              onAdd={addToCart} 
-            />
-          ))}
+          {loading ? (
+            <div className="col-span-full px-4 py-8 text-center">Carregando produtos...</div>
+          ) : products.length === 0 ? (
+            <div className="col-span-full px-4 py-8 text-center">Nenhum produto disponível no momento.</div>
+          ) : (
+            products.map((product) => (
+              <ProductCard 
+                key={product.id} 
+                product={product} 
+                onAdd={addToCart} 
+              />
+            ))
+          )}
         </div>
         <div className="mt-16 flex justify-center">
           <button className="rounded-full border-2 border-[#f4ebe7] dark:border-neutral-800 bg-surface-light dark:bg-surface-dark px-10 py-4 text-sm font-black text-text-main dark:text-white shadow-sm transition hover:bg-gray-50 dark:hover:bg-neutral-800 hover:border-primary active:scale-95">
