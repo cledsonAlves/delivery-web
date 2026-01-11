@@ -41,6 +41,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAdd }) => {
             {product.name}
           </h4>
         </Link>
+        {product.storeName && (
+          <p className="text-xs text-text-muted mb-2">Vendido por: <span className="font-semibold">{product.storeName}</span></p>
+        )}
         <div className="mt-auto flex items-end justify-between">
           <div className="flex flex-col">
             {product.originalPrice && (

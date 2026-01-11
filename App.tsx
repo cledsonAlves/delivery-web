@@ -4,6 +4,9 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import Checkout from './pages/Checkout';
+import Profile from './pages/Profile';
+import ProductDetail from './pages/ProductDetail';
+import StorePage from './pages/StorePage';
 import { Product, CartItem } from './types';
 
 const App: React.FC = () => {
@@ -46,8 +49,10 @@ const App: React.FC = () => {
               />
             } 
           />
+          <Route path="/product/:id" element={<ProductDetail addToCart={addToCart} />} />
+                    <Route path="/store/:id" element={<StorePage addToCart={addToCart} />} />
           <Route path="/orders" element={<div className="p-10 text-center text-text-muted">Em breve: Meus Pedidos</div>} />
-          <Route path="/profile" element={<div className="p-10 text-center text-text-muted">Em breve: Seu Perfil</div>} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </Layout>
     </HashRouter>

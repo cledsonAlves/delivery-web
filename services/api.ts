@@ -70,5 +70,7 @@ export default {
   listarProdutos,
   obterProduto,
   criarProduto,
+  listarLojistas,
+  obterLojista,
   listarImagensProduto,
 };

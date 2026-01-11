@@ -23,6 +23,7 @@ export interface ProdutoImagem {
 export interface Product {
   id: string;
   storeId: string;
+  storeName?: string;
   name: string;
   description: string;
   price: number;

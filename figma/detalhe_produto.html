@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Detalhe do Produto - Jarinu Shop</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f46a25",
+              "primary-dark": "#d9531e",
+              "background-light": "#fcf9f8", // Slightly warmer off-white
+              "background-dark": "#221610",
+              "surface-light": "#ffffff",
+              "surface-dark": "#2d201a",
+              "text-main": "#1c120d",
+              "text-muted": "#9c6549",
+            },
+            fontFamily: {
+              "display": ["Plus Jakarta Sans", "sans-serif"],
+              "body": ["Plus Jakarta Sans", "sans-serif"],
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem",
+              "lg": "1rem",
+              "xl": "1.5rem",
+              "2xl": "2rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5e7eb;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d1d5db;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-text-main dark:text-gray-100 min-h-screen flex flex-col">
+<!-- Top Navbar -->
+<header class="sticky top-0 z-50 w-full bg-surface-light dark:bg-surface-dark border-b border-[#f4ebe7] dark:border-gray-800">
+<div class="px-4 lg:px-10 py-3 flex items-center justify-between gap-4">
+<!-- Logo & Nav -->
+<div class="flex items-center gap-8 lg:gap-12">
+<a class="flex items-center gap-3 text-text-main dark:text-white group" href="#">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined">local_mall</span>
+</div>
+<h2 class="text-xl font-bold leading-tight tracking-tight">Jarinu Shop</h2>
+</a>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-text-main dark:text-gray-200 text-sm font-semibold hover:text-primary transition-colors" href="#">Início</a>
+<a class="text-text-primary text-sm font-bold text-primary" href="#">Restaurantes</a>
+<a class="text-text-main dark:text-gray-200 text-sm font-semibold hover:text-primary transition-colors" href="#">Mercados</a>
+<a class="text-text-main dark:text-gray-200 text-sm font-semibold hover:text-primary transition-colors" href="#">Farmácias</a>
+</nav>
+</div>
+<!-- Search & Actions -->
+<div class="flex flex-1 justify-end gap-6 items-center">
+<div class="hidden lg:flex w-full max-w-sm relative group">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted material-symbols-outlined">search</span>
+<input class="w-full bg-[#f4ebe7] dark:bg-gray-800 border-none rounded-xl py-2.5 pl-10 pr-4 text-sm font-medium focus:ring-2 focus:ring-primary/50 transition-all placeholder:text-text-muted" placeholder="Buscar produtos, lojas..." type="text"/>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative p-2 hover:bg-[#f4ebe7] dark:hover:bg-gray-800 rounded-full transition-colors text-text-main dark:text-white">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="absolute top-1 right-0.5 size-2 bg-primary rounded-full"></span>
+</button>
+<div class="size-10 rounded-full bg-gray-200 bg-cover bg-center border-2 border-white dark:border-gray-700 shadow-sm" data-alt="User profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCItXfdFjuPz6eZJ4b2c4b0KBk2UPw4fthG5WkH7UxGkDbCRCEW6ubMK2B6UEEQfVNAm9p9dRvGtZMEcT5TdiD5GTF9NvoERTo5C4aBzqgVhX44zD9KjuJ7Tx9pNXa93dJxJiLHCErs1AocnISehJPFMzVrY6F16qzN6-w63crsfGSOCwDLT8Uv83-aYb14cBZW_YwauOyGupwMmejEzFliKT242ICdvSob4977bgWax1wEYibf1VyEgbXHPdQtuJwsjE2ipB6xFMCX');"></div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow w-full max-w-[1280px] mx-auto px-4 md:px-8 py-6">
+<!-- Breadcrumbs -->
+<nav class="flex flex-wrap items-center gap-2 text-sm mb-8 text-text-muted">
+<a class="hover:text-primary hover:underline" href="#">Início</a>
+<span class="material-symbols-outlined text-base">chevron_right</span>
+<a class="hover:text-primary hover:underline" href="#">Restaurantes</a>
+<span class="material-symbols-outlined text-base">chevron_right</span>
+<a class="hover:text-primary hover:underline" href="#">Lanches</a>
+<span class="material-symbols-outlined text-base">chevron_right</span>
+<span class="text-text-main dark:text-white font-medium">Hambúrgueres</span>
+</nav>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-12">
+<!-- Left Column: Gallery & Description -->
+<div class="lg:col-span-7 xl:col-span-8 space-y-8">
+<!-- Gallery -->
+<div class="space-y-4">
+<div class="relative aspect-[4/3] md:aspect-video w-full rounded-2xl overflow-hidden shadow-sm bg-gray-100 group">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105" data-alt="Close up of a delicious artisanal bacon burger with cheese dripping" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAxwUa5wOiwN51kh4Pu0IrCveVRt0yhIPE1MKUzfYppXNsB3Co9nKCxchopxiyflelfo4R2j0KTHVUkqslJutrK9teGrrnjKuu78sYoir3jO0qRjuSg0-U0aHT7u-c_r_b7Y6CDB3By27SFobby1sKTUlnb7zshnCuLcq4ab7IbxzPHpTu6E4dYnmE5fFHV3gxNrBa0Wd_Qnd1Q29wbBpv5PqbdyOvKG1AEsM6PQFTBG2OiWChPyCQMWTqJVxA2f9cj3tQEilZEXE54');"></div>
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-base">local_fire_department</span>
+                            Popular
+                        </div>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+<button class="shrink-0 size-20 md:size-24 rounded-xl border-2 border-primary overflow-hidden p-0.5 bg-white">
+<div class="w-full h-full rounded-lg bg-cover bg-center" data-alt="Thumbnail of burger" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCGOxMbA4eigGgBlSpUIqMhshsKXyzPVG0chfqD9__xAi8s6kwUjC1PbNGvY-upyEU2S-u2jkevL6aS1cCC2Xe0t1Guh_WU3BQSgIwE9PYX6icWFl4HSQEOMm--y-FEYiAXTv8JETdZgrTToQzlkCf8cd9tJiZSQ4WRRKpf7TZ368Hf-jpyqzqsB6Rvqum7VIyPF0BMmGkeA1TCadWd2UPmjqfrg1y_01dpjvbjGXmZ3YXS29Yqsb4s6qmv_MqQabi6UfbcM6eTOtmA');"></div>
+</button>
+<button class="shrink-0 size-20 md:size-24 rounded-xl border-2 border-transparent hover:border-gray-300 overflow-hidden p-0.5 bg-white transition-colors">
+<div class="w-full h-full rounded-lg bg-cover bg-center" data-alt="Thumbnail of burger side view with fries" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDbcqWTl14e7DOyxQ4_cKF-b-yuJuOOyTb15MlX8CFsfo5ZksNiuqKsNB-TKUGQlFj6yYQ_IoJQUbHNwPwEv3XvT8PNREzk0COJ_-47vkZ1o8sltVtmufqTYH0hP8PWiSLrvdYH7NM07QwnY8soqAfHnjSTdNeveIL3e6FHPHQqbM9yNoTI9DW7GERKP0wdfw2B49YZL6Dmh67FnKmHBNHpTUqATn6GDOIOGpwyzMDoIPvCmUHwB-LSUwegd5Bg4_ahaUBnbhbeeHVE');"></div>
+</button>
+<button class="shrink-0 size-20 md:size-24 rounded-xl border-2 border-transparent hover:border-gray-300 overflow-hidden p-0.5 bg-white transition-colors">
+<div class="w-full h-full rounded-lg bg-cover bg-center" data-alt="Thumbnail of burger packaging" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCbsBWVU5t6N2OAU7MjjEmHxcUE4teASnKGOjo99hH4A4V3zZYbVT5jOeJC-JQ27fLwgsZDCRRR2zKndaC9YWg-HH8LMfA7H8wfOys7hWVDxHIK8ShNV4TwA2BZGcp9RLWTwqtXOK4pKIXavVUbKeDWLSpqkcqQLOKxaqOTgNuHqO1OzgrrzgGvZV1Htq6w5apNsBKXrwYshjS3-dv9oiWMZ5iLl5ZXyr_dvYA78JnkTwUIJPHPSonC2lme2FjcE6MfXOenjZGNymiY');"></div>
+</button>
+</div>
+</div>
+<!-- Detailed Description Section -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl p-6 md:p-8 shadow-sm">
+<h3 class="text-xl font-bold mb-4 text-text-main dark:text-white">Descrição do Produto</h3>
+<p class="text-text-muted dark:text-gray-400 leading-relaxed mb-6">
+                        Experimente o nosso X-Bacon Artesanal, preparado com ingredientes selecionados para proporcionar uma explosão de sabor. Utilizamos um blend especial de carnes nobres (180g), grelhado na brasa para manter a suculência. 
+                    </p>
+<ul class="space-y-2 mb-6">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">check_circle</span>
+<span class="text-text-main dark:text-gray-300">Pão brioche selado na manteiga</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">check_circle</span>
+<span class="text-text-main dark:text-gray-300">Queijo cheddar inglês derretido</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">check_circle</span>
+<span class="text-text-main dark:text-gray-300">Bacon crocante em tiras generosas</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">check_circle</span>
+<span class="text-text-main dark:text-gray-300">Maionese caseira de ervas</span>
+</li>
+</ul>
+<div class="p-4 bg-[#fcf9f8] dark:bg-background-dark border border-[#f4ebe7] dark:border-gray-700 rounded-xl">
+<p class="text-sm text-text-muted dark:text-gray-400 font-medium">
+<span class="material-symbols-outlined align-middle mr-1 text-lg">info</span>
+                            Contém glúten e lactose. Por favor, informe no campo de observações se desejar retirar algum ingrediente.
+                        </p>
+</div>
+</div>
+</div>
+<!-- Right Column: Sticky Sidebar Info -->
+<div class="lg:col-span-5 xl:col-span-4">
+<div class="sticky top-24 space-y-6">
+<!-- Product Info Card -->
+<div class="bg-surface-light dark:bg-surface-dark rounded-2xl p-6 shadow-lg border border-gray-100 dark:border-gray-800">
+<!-- Vendor Mini Header -->
+<div class="flex items-center justify-between mb-4 pb-4 border-b border-dashed border-gray-200 dark:border-gray-700">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-full bg-cover bg-center shadow-inner" data-alt="Logo of Lanchonete do Zé" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDmlSjfRfmfHPqDpg6A9xwNkn1GPtOSyxAix1-baLdJu6eSzf6er81s74fitE3QxKpWSYKa98gGfbqzJB6-T-in2N5oHMsLODwCKT-NnnJloG22W1AuosNzMOUPRHm2aWHr1A8wwHLzCsgXdONIdj62CmuZbodw554A1lOjb1l8mQQ10LbTM1VD9lEf-gusEF6KgYS-2V_IA9Meym3ImN7WZm_CIKmr7W9olu390S91L5MNmzLBExTK4eECk5X36UFay-XAnKkOJUAh');"></div>
+<div>
+<p class="text-sm font-bold text-text-main dark:text-white leading-tight">Lanchonete do Zé</p>
+<div class="flex items-center gap-1 text-xs text-text-muted">
+<span class="material-symbols-outlined text-[14px] text-yellow-400 fill-current">star</span>
+<span>4.8 (1.2k)</span>
+<span>•</span>
+<span>Lanches</span>
+</div>
+</div>
+</div>
+<button class="text-primary hover:text-primary-dark text-sm font-semibold transition-colors">Ver loja</button>
+</div>
+<!-- Title & Price -->
+<h1 class="text-2xl md:text-3xl font-extrabold text-text-main dark:text-white mb-2 leading-tight">X-Bacon Artesanal</h1>
+<p class="text-text-muted dark:text-gray-400 text-sm mb-6">Hambúrguer de 180g, queijo cheddar, bacon, cebola caramelizada e maionese da casa.</p>
+<div class="flex items-baseline gap-2 mb-6">
+<span class="text-3xl font-bold text-primary">R$ 28,90</span>
+<span class="text-lg text-gray-400 line-through decoration-1">R$ 32,90</span>
+</div>
+<!-- Delivery Info -->
+<div class="flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-200 rounded-xl mb-6">
+<div class="bg-white dark:bg-blue-800 p-1.5 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-blue-600 dark:text-blue-200">two_wheeler</span>
+</div>
+<div class="flex-1">
+<p class="text-sm font-bold">Entrega em 30-45 min</p>
+<p class="text-xs opacity-80">Frete: R$ 5,00 • Jarinu</p>
+</div>
+</div>
+<!-- Actions -->
+<div class="space-y-4">
+<!-- Observation Field -->
+<div>
+<label class="text-sm font-semibold text-text-main dark:text-gray-300 mb-2 block" for="obs">Alguma observação?</label>
+<textarea class="w-full bg-[#fcf9f8] dark:bg-gray-800 border-none rounded-xl p-3 text-sm focus:ring-2 focus:ring-primary/50 resize-none placeholder:text-text-muted/70" id="obs" placeholder="Ex: Tirar a cebola, ponto da carne..." rows="2"></textarea>
+</div>
+<!-- Quantity & Add Button -->
+<div class="flex items-center gap-3 pt-2">
+<div class="flex items-center bg-[#fcf9f8] dark:bg-gray-800 rounded-full border border-gray-200 dark:border-gray-700 h-14 px-1 shrink-0">
+<button class="size-10 rounded-full flex items-center justify-center text-text-muted hover:bg-white hover:text-primary hover:shadow-sm transition-all dark:hover:bg-gray-700">
+<span class="material-symbols-outlined">remove</span>
+</button>
+<span class="w-8 text-center font-bold text-lg text-text-main dark:text-white">1</span>
+<button class="size-10 rounded-full flex items-center justify-center text-text-muted hover:bg-white hover:text-primary hover:shadow-sm transition-all dark:hover:bg-gray-700">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+<button class="flex-1 h-14 bg-primary hover:bg-primary-dark text-white font-bold rounded-full shadow-lg shadow-primary/25 active:scale-[0.98] transition-all flex items-center justify-center gap-2 text-lg">
+<span>Adicionar</span>
+<span class="bg-white/20 px-2 py-0.5 rounded text-sm font-semibold">R$ 28,90</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Safety/Trust Badges -->
+<div class="flex justify-center gap-6 text-text-muted text-xs font-medium opacity-80">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+                            Compra Segura
+                        </div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[18px]">thumb_up</span>
+                            Qualidade Garantida
+                        </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Related Products Section -->
+<section class="mt-16 md:mt-24 mb-12">
+<div class="flex items-end justify-between mb-6">
+<div>
+<h2 class="text-2xl font-bold text-text-main dark:text-white">Mais dessa loja</h2>
+<p class="text-text-muted dark:text-gray-400 mt-1">Outras delícias que você pode gostar</p>
+</div>
+<a class="hidden sm:flex items-center text-primary font-bold hover:underline gap-1" href="#">
+                    Ver cardápio completo
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Card 1 -->
+<div class="group bg-surface-light dark:bg-surface-dark rounded-2xl p-3 shadow-sm hover:shadow-md transition-all border border-transparent hover:border-gray-100 dark:hover:border-gray-700 cursor-pointer">
+<div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 mb-3">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Juicy beef burger with lettuce and tomato" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBRfPp27eKmIvCyx839tjpw1EIbKLDtOCdSKA8jLQn6O_JBtIVX5125lkylji16r6xfKjR-sCQI_ctNzKNLqJiNpCUbydrmB_x4DOBJ1Yf5WEQuhLQxRO3aL3Thx-oDFi8zhJcRFjSdzemUiaFONi7Hy7rPWzDVvrXiWUjAO-CdjSw_6HHHtRPBK7Y7fSH9BuHU6olz0isplJ9ofN08tNumA2bnqi8qFYBzbbm3iw0TzOcR62KC2CP6TDqBSTTu-VI9-xNyAMngBr-S');"></div>
+</div>
+<div class="px-1">
+<h4 class="font-bold text-lg text-text-main dark:text-white leading-tight mb-1 group-hover:text-primary transition-colors">X-Salada Clássico</h4>
+<p class="text-xs text-text-muted line-clamp-2 mb-3">O clássico que nunca falha. Pão, carne, queijo, alface e tomate.</p>
+<div class="flex items-center justify-between">
+<span class="font-bold text-primary">R$ 22,00</span>
+<button class="size-8 rounded-full bg-[#fcf9f8] dark:bg-gray-800 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="group bg-surface-light dark:bg-surface-dark rounded-2xl p-3 shadow-sm hover:shadow-md transition-all border border-transparent hover:border-gray-100 dark:hover:border-gray-700 cursor-pointer">
+<div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 mb-3">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Portion of french fries in a basket" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuA_CORKqC7-ThFJAoT8eOwQwdaX8uLRLJzJ_0HBxcJAM29iyBsfUqi9FXoDCCJQ00-w1QLfoUXrYf7N35q4HLrLuiIUjeCi6QBWMpbq2LhX5hsXhG3e4RYaAXjERnJGzHyPDoWIEj5s078eQ6pqFU3OR_o3mf-Iu8zJ28mF4Bg9o0GhbY4WzpVCrIT5jYk49489E0trMtzKlsfsgamMz_TTZALehRVtp5vQ8r6Jbs47aznQE8u5qs1EObPiUGq6rX7qDnf-B6V8X4dS');"></div>
+</div>
+<div class="px-1">
+<h4 class="font-bold text-lg text-text-main dark:text-white leading-tight mb-1 group-hover:text-primary transition-colors">Batata Frita Rustica</h4>
+<p class="text-xs text-text-muted line-clamp-2 mb-3">Porção generosa de batatas rústicas temperadas com alecrim.</p>
+<div class="flex items-center justify-between">
+<span class="font-bold text-primary">R$ 18,50</span>
+<button class="size-8 rounded-full bg-[#fcf9f8] dark:bg-gray-800 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group bg-surface-light dark:bg-surface-dark rounded-2xl p-3 shadow-sm hover:shadow-md transition-all border border-transparent hover:border-gray-100 dark:hover:border-gray-700 cursor-pointer">
+<div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 mb-3">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Glass of cold soda with ice and lemon" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDVSVLWHNoHM61SuEO0XpC9blneZ2A6m4It-JgFKi_k8F-PIhWsF61Y-feWoZHsuNhp2ngWHNPk_R6jb5cMCFPI_3zluI1PS4rFwp1yJjk8jp_MDqm4PIvIYi67uHfqjKTiX89ug3k9XEQFz08cOINn3bp-qQRleYk1LKFfXwlicSbN3pibRLqmJ0yOWxwOKzjj5ulh-2BhcFkGbC45Qnp8w_x5_NGh2vnH_OHk6xs4kUuOPOy6yMs_nCTZH1BNZehemSdaB5TBFP4F');"></div>
+</div>
+<div class="px-1">
+<h4 class="font-bold text-lg text-text-main dark:text-white leading-tight mb-1 group-hover:text-primary transition-colors">Refrigerante Lata</h4>
+<p class="text-xs text-text-muted line-clamp-2 mb-3">Escolha o seu sabor preferido: Cola, Guaraná ou Laranja.</p>
+<div class="flex items-center justify-between">
+<span class="font-bold text-primary">R$ 6,00</span>
+<button class="size-8 rounded-full bg-[#fcf9f8] dark:bg-gray-800 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="group bg-surface-light dark:bg-surface-dark rounded-2xl p-3 shadow-sm hover:shadow-md transition-all border border-transparent hover:border-gray-100 dark:hover:border-gray-700 cursor-pointer">
+<div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 mb-3">
+<div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" data-alt="Slice of chocolate cake on a plate" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB39uoTI9nIvCtw9kND3ayL8-QkjLGtWum2a2FQTArjShIkpKQeUMV4K5UodwLOF9GBdTczhX9GFUJqSceKhDquQni5bJCa9Ntq6vvXg253tHr4gEo2AWHCTaXgk9Rzk5poWO9mP-9TQ6aeJv-wSkewXIAR_2uzPxUDskGgyrIYcyf88VSW296-7QAsxuZBMFv-HLFpku_qZn-IDA4_HpVroeWU7uAXyyJlpaC7ndAUBA-0PK5wx243jnVW8pNmHEalLUl4M_rkbcqF');"></div>
+</div>
+<div class="px-1">
+<h4 class="font-bold text-lg text-text-main dark:text-white leading-tight mb-1 group-hover:text-primary transition-colors">Brownie Chocolate</h4>
+<p class="text-xs text-text-muted line-clamp-2 mb-3">Brownie caseiro super úmido com nozes e cobertura extra.</p>
+<div class="flex items-center justify-between">
+<span class="font-bold text-primary">R$ 12,00</span>
+<button class="size-8 rounded-full bg-[#fcf9f8] dark:bg-gray-800 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8 text-center sm:hidden">
+<a class="inline-flex items-center justify-center w-full px-6 py-3 border border-gray-200 dark:border-gray-700 rounded-xl text-primary font-bold hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors" href="#">
+                    Ver cardápio completo
+                </a>
+</div>
+</section>
+</main>
+<!-- Footer Simple -->
+<footer class="mt-auto bg-surface-light dark:bg-surface-dark border-t border-[#f4ebe7] dark:border-gray-800 py-8">
+<div class="max-w-[1280px] mx-auto px-4 lg:px-10 text-center text-text-muted text-sm">
+<p class="mb-2 font-semibold text-primary">Jarinu Shop</p>
+<p>© 2023 Todos os direitos reservados. Feito com carinho para Jarinu.</p>
+</div>
+</footer>
+</body></html>

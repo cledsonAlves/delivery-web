@@ -88,8 +88,8 @@ const Layout: React.FC<LayoutProps> = ({ children, cartCount }) => {
             <Link to="/stores" className="hover:text-primary">Lojas</Link>
             <Link to="/orders" className="hover:text-primary">Meus Pedidos</Link>
             <Link to="/help" className="hover:text-primary">Ajuda</Link>
-          </div>
-          <p className="text-xs text-text-muted opacity-60">© 2024 Regional Shop. Feito com ❤️ para nossa cidade.</p>
+          </div>Regional Shop
+          <p className="text-xs text-text-muted opacity-60">© 2026 Regional Shop.  para nossa cidade.</p>
         </div>
       </footer>
     </div>
