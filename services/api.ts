@@ -64,6 +64,13 @@ export async function listarImagensProduto(produtoId: string) {
   return await apiRequest<any[]>('GET', `/produto-imagens?produto_id=${produtoId}`);
 }
 
+export async function listarOfertas(skip = 0, limit = 50) {
+  const params = new URLSearchParams();
+  params.append('skip', String(skip));
+  params.append('limit', String(limit));
+  return await apiRequest<any>('GET', `/offers/?${params.toString()}`);
+}
+
 export default {
   API_URL,
   apiRequest,
@@ -73,4 +80,5 @@ export default {
   listarLojistas,
   obterLojista,
   listarImagensProduto,
+  listarOfertas,
 };

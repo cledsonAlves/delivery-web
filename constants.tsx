@@ -1,6 +1,14 @@
 
 import { Category, Store, Product } from './types';
 
+export const CITIES: string[] = [
+  'Jarinu - SP',
+  'Jundiaí - SP',
+  'Campo Limpo Paulista - SP',
+  'Louveira - SP',
+  'Botujuru - SP',
+];
+
 export const CATEGORIES: Category[] = [
   { id: 'games', label: 'Games', icon: 'sports_esports', colorClass: 'bg-blue-100 text-blue-600' },
   { id: 'construcao', label: 'Construção', icon: 'construction', colorClass: 'bg-orange-100 text-orange-600' },

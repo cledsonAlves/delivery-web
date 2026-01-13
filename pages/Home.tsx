@@ -1,11 +1,13 @@
 
-import React, { useEffect, useState } from 'react';
-import { CATEGORIES } from '../constants';
+import React, { useEffect, useState, useMemo, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { CATEGORIES, CITIES } from '../constants';
 import StoreCard from '../components/StoreCard';
 import ProductCard from '../components/ProductCard';
 import PromoSlider from '../components/PromoSlider';
 import { Product, Store } from '../types';
 import api from '../services/api';
+import { CityContext } from '../context/CityContext';
 
 interface HomeProps {
   addToCart: (product: Product) => void;
@@ -16,6 +18,7 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [stores, setStores] = useState<Store[]>([]);
   const [loading, setLoading] = useState(false);
+  const { selectedCity } = useContext(CityContext);
 
   useEffect(() => {
     let mounted = true;
@@ -27,7 +30,7 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
         let storesData: Store[] = [];
         
         if (mounted && Array.isArray(lojistas)) {
-          storesData = lojistas.map((loj: any) => ({
+          storesData = lojistas.map((loj: any, idx: number) => ({
             id: loj.id,
             name: loj.nome,
             logo: loj.avatar_url || 'https://via.placeholder.com/100',
@@ -38,6 +41,7 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
             deliveryFee: 5.0,
             category: loj.categoria || 'Loja local',
             isOpen: loj.ativo ?? true,
+            city: CITIES[idx % CITIES.length],
           }));
           setStores(storesData);
         }
@@ -106,6 +110,27 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
     return () => { mounted = false; };
   }, []);
 
+  const filteredStores = useMemo(() => {
+    return stores.filter((s) => s.city === selectedCity);
+  }, [stores, selectedCity]);
+
+  const filteredProducts = useMemo(() => {
+    const cityStoreIds = new Set(filteredStores.map((s) => s.id));
+    return products.filter((p) => cityStoreIds.has(p.storeId));
+  }, [products, filteredStores]);
+
+  const papelaoStore = useMemo(() => {
+    const matchInCity = filteredStores.find((s) =>
+      (s.name && (s.name.toLowerCase().includes('papelaria') || s.name.toLowerCase().includes('papelao') || s.name.toLowerCase().includes('papelão')))
+      || (s.category && s.category.toLowerCase().includes('papelaria'))
+    );
+    if (matchInCity) return matchInCity;
+    return stores.find((s) =>
+      (s.name && (s.name.toLowerCase().includes('papelaria') || s.name.toLowerCase().includes('papelao') || s.name.toLowerCase().includes('papelão')))
+      || (s.category && s.category.toLowerCase().includes('papelaria'))
+    ) || null;
+  }, [filteredStores, stores]);
+
   return (
     <div className="pb-12">
       {/* Top Banner Strip - Shopee Style */}
@@ -155,7 +180,7 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
 
           {/* Center - Main Banner Slider */}
           <div className="lg:col-span-7">
-            <PromoSlider stores={stores} />
+            <PromoSlider stores={filteredStores} />
           </div>
 
           {/* Right Sidebar - Quick Actions */}
@@ -232,6 +257,34 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
         </div>
       </section>
 
+      {/* Back to School - Papelaria Papelao */}
+      {papelaoStore && (
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="relative overflow-hidden rounded-2xl p-6 md:p-8 bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-500 text-white shadow-lg">
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+              <div className="flex-1">
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="material-symbols-outlined text-3xl filled">school</span>
+                  <h3 className="text-2xl md:text-3xl font-black">Volta às Aulas</h3>
+                </div>
+                <p className="text-sm md:text-base font-medium opacity-90">
+                  Na <span className="font-bold">{papelaoStore.name}</span>: cadernos, mochilas e materiais com descontos.
+                </p>
+                <div className="mt-4">
+                  <Link to={`/store/${papelaoStore.id}`} className="inline-flex items-center gap-2 bg-white text-blue-700 px-5 py-3 rounded-xl font-bold hover:bg-gray-100 transition-colors">
+                    Ver loja
+                    <span className="material-symbols-outlined">arrow_forward</span>
+                  </Link>
+                </div>
+              </div>
+              <div className="hidden md:block w-40 h-40 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                <span className="material-symbols-outlined text-6xl">backpack</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Categories Grid - Mobile */}
       <section className="lg:hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="grid grid-cols-4 gap-4">
@@ -258,8 +311,8 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
           </button>
         </div>
         <div className="scrollbar-hide flex gap-6 overflow-x-auto pb-6 px-2">
-          {stores.length > 0 ? (
-            stores.map((store) => (
+          {filteredStores.length > 0 ? (
+            filteredStores.map((store) => (
               <StoreCard key={store.id} store={store} />
             ))
           ) : (
@@ -270,14 +323,15 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
 
       {/* Featured Products */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <h3 className="text-2xl font-black text-text-main dark:text-white mb-8 px-2">Destaques da Cidade</h3>
+        <h3 className="text-2xl font-black text-text-main dark:text-white mb-1 px-2">Destaques em {selectedCity}</h3>
+        <p className="text-xs text-text-muted px-2 mb-7">Produtos de lojas em {selectedCity}</p>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {loading ? (
             <div className="col-span-full px-4 py-8 text-center">Carregando produtos...</div>
-          ) : products.length === 0 ? (
+          ) : filteredProducts.length === 0 ? (
             <div className="col-span-full px-4 py-8 text-center">Nenhum produto disponível no momento.</div>
           ) : (
-            products.map((product) => (
+            filteredProducts.map((product) => (
               <ProductCard 
                 key={product.id} 
                 product={product} 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Store } from '../types';
+import api from '../services/api';
 
 interface PromoSliderProps {
   stores: Store[];
@@ -13,70 +14,93 @@ interface PromoCard {
   discount: string;
   bgGradient: string;
   icon: string;
+  imageUrl?: string;
 }
 
 const PromoSlider: React.FC<PromoSliderProps> = ({ stores }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [promos, setPromos] = useState<PromoCard[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const generatePromos = (): PromoCard[] => {
-    if (!stores || stores.length === 0) return [];
+  useEffect(() => {
+    let mounted = true;
     
-    return stores.slice(0, 6).map((store, idx) => {
-      const promos = [
-        {
-          title: '🎁 Cashback Especial',
-          subtitle: 'Ganhe de volta em compras',
-          discount: '15%',
-          bgGradient: 'from-purple-500 to-pink-500',
-          icon: 'volunteer_activism',
-        },
-        {
-          title: '⚡ Super Desconto',
-          subtitle: 'Em todos os produtos',
-          discount: '20%',
-          bgGradient: 'from-orange-500 to-red-500',
-          icon: 'local_fire_department',
-        },
-        {
-          title: '💰 Economia Garantida',
-          subtitle: 'Na sua próxima compra',
-          discount: '10%',
-          bgGradient: 'from-green-500 to-teal-500',
-          icon: 'savings',
-        },
-        {
-          title: '🚀 Frete Grátis',
-          subtitle: 'Em pedidos acima de R$ 50',
-          discount: 'FREE',
-          bgGradient: 'from-blue-500 to-cyan-500',
-          icon: 'local_shipping',
-        },
-        {
-          title: '⭐ Primeira Compra',
-          subtitle: 'Desconto exclusivo',
-          discount: '25%',
-          bgGradient: 'from-yellow-500 to-orange-500',
-          icon: 'star',
-        },
-        {
-          title: '🎉 Promoção Relâmpago',
-          subtitle: 'Válido por tempo limitado',
-          discount: '30%',
-          bgGradient: 'from-indigo-500 to-purple-500',
-          icon: 'bolt',
-        },
-      ];
+    async function loadOffers() {
+      try {
+        const response = await api.listarOfertas(0, 10);
+        
+        if (mounted) {
+          // Se a resposta contém ofertas em um campo 'offers'
+          const offers = response.offers || (Array.isArray(response) ? response : []);
+          
+          const gradients = [
+            'from-purple-500 to-pink-500',
+            'from-orange-500 to-red-500',
+            'from-green-500 to-teal-500',
+            'from-blue-500 to-cyan-500',
+            'from-yellow-500 to-orange-500',
+            'from-indigo-500 to-purple-500',
+          ];
 
-      const promo = promos[idx % promos.length];
-      return {
-        id: store.id,
-        storeName: store.name,
-        ...promo,
-      };
-    });
-  };
+          const icons = [
+            'volunteer_activism',
+            'local_fire_department',
+            'savings',
+            'local_shipping',
+            'star',
+            'bolt',
+          ];
 
-  const promos = generatePromos();
+          // Carregar nomes das lojas para cada oferta
+          const transformedPromos: PromoCard[] = await Promise.all(
+            offers
+              .filter((offer: any) => offer.is_active)
+              .slice(0, 6)
+              .map(async (offer: any, idx: number) => {
+                const originalPrice = parseFloat(offer.price_original) || 0;
+                const discountPrice = parseFloat(offer.price_discount) || 0;
+                const discountPercent = originalPrice > 0 
+                  ? Math.round(((originalPrice - discountPrice) / originalPrice) * 100)
+                  : 0;
+
+                let storeName = offer.store_id;
+                try {
+                  const lojista = await api.obterLojista(offer.store_id);
+                  storeName = lojista?.nome || offer.store_id;
+                } catch (err) {
+                  console.error(`Erro ao carregar lojista ${offer.store_id}:`, err);
+                  // Mantém o store_id como fallback
+                }
+
+                return {
+                  id: offer.id,
+                  storeName: storeName,
+                  title: offer.title,
+                  subtitle: offer.description || 'Confira essa promoção!',
+                  discount: discountPercent > 0 ? `${discountPercent}%` : 'FREE',
+                  bgGradient: gradients[idx % gradients.length],
+                  icon: icons[idx % icons.length],
+                  imageUrl: offer.image_url,
+                };
+              })
+          );
+
+          if (mounted) {
+            setPromos(transformedPromos);
+          }
+        }
+      } catch (err) {
+        console.error('Erro ao carregar ofertas:', err);
+        // Mantém o estado anterior em caso de erro
+        setPromos([]);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
+
+    loadOffers();
+    return () => { mounted = false; };
+  }, []);
 
   useEffect(() => {
     if (promos.length === 0) return;
@@ -86,6 +110,7 @@ const PromoSlider: React.FC<PromoSliderProps> = ({ stores }) => {
     return () => clearInterval(interval);
   }, [promos.length]);
 
+  if (loading) return null;
   if (promos.length === 0) return null;
 
   const goToSlide = (index: number) => {
@@ -102,20 +127,6 @@ const PromoSlider: React.FC<PromoSliderProps> = ({ stores }) => {
 
   return (
     <div className="relative">
-      {/* Navigation Buttons */}
-      <button
-        onClick={prevSlide}
-        className="absolute left-2 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-white/90 dark:bg-gray-900/90 text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-900 transition-all shadow-lg backdrop-blur-sm"
-      >
-        <span className="material-symbols-outlined">chevron_left</span>
-      </button>
-      <button
-        onClick={nextSlide}
-        className="absolute right-2 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-white/90 dark:bg-gray-900/90 text-text-main dark:text-white hover:bg-white dark:hover:bg-gray-900 transition-all shadow-lg backdrop-blur-sm"
-      >
-        <span className="material-symbols-outlined">chevron_right</span>
-      </button>
-
       <div className="relative overflow-hidden rounded-2xl">
         <div
           className="flex transition-transform duration-500 ease-in-out"

@@ -10,6 +10,7 @@ export interface Store {
   deliveryFee: number;
   category: string;
   isOpen: boolean;
+  city?: string;
 }
 
 export interface ProdutoImagem {
@@ -18,6 +19,23 @@ export interface ProdutoImagem {
   url: string;
   principal: boolean;
   ordem: number;
+}
+
+export interface Offer {
+  id: string;
+  store_id: string;
+  title: string;
+  description: string;
+  price_original: number | string;
+  price_discount: number | string;
+  image_url: string;
+  category: string;
+  priority: number;
+  valid_from: string;
+  valid_to: string;
+  is_active: boolean;
+  criado_em: string;
+  atualizado_em: string;
 }
 
 export interface Product {
@@ -45,3 +63,4 @@ export interface Category {
 export interface CartItem extends Product {
   quantity: number;
 }
+
