@@ -9,12 +9,20 @@ import ProductDetail from './pages/ProductDetail';
 import StorePage from './pages/StorePage';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import PaymentSuccess from './pages/PaymentSuccess';
 import { Product, CartItem } from './types';
+import { initMercadoPago } from '@mercadopago/sdk-react';
 import { AuthProvider } from './context/AuthContext';
 import { CityProvider } from './context/CityContext';
 
+// Inicializa o SDK do Mercado Pago com uma chave de teste
+initMercadoPago('', {
+  locale: 'pt-BR'
+});
+
 const App: React.FC = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
+
 
   const addToCart = (product: Product) => {
     setCart(prev => {
@@ -57,6 +65,7 @@ const App: React.FC = () => {
               />
             } 
           />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/product/:id" element={<ProductDetail addToCart={addToCart} />} />
           <Route path="/store/:id" element={<StorePage addToCart={addToCart} />} />
           <Route path="/orders" element={<div className="p-10 text-center text-text-muted">Em breve: Meus Pedidos</div>} />

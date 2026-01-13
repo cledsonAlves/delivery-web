@@ -234,26 +234,7 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
               </div>
             </div>
 
-            {/* Quick User/Login/Register */}
-            {!isAuthenticated && (
-              <div className="bg-surface-light dark:bg-surface-dark rounded-2xl p-6 shadow-sm ring-1 ring-[#f4ebe7] dark:ring-neutral-800 text-center">
-                <div className="mb-4">
-                  <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
-                    <span className="material-symbols-outlined text-primary text-3xl">person</span>
-                  </div>
-                </div>
-                <h4 className="font-bold text-text-main dark:text-white mb-2">Bem-vindo!</h4>
-                <p className="text-xs text-text-muted mb-4">Faça login ou cadastre-se</p>
-                <div className="space-y-2">
-                  <Link to="/login" className="block w-full bg-primary text-white px-4 py-2 rounded-xl font-semibold text-sm hover:bg-primary-dark transition-colors">
-                    Entrar
-                  </Link>
-                  <Link to="/register" className="block w-full border border-[#f4ebe7] dark:border-neutral-800 text-text-main dark:text-white px-4 py-2 rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
-                    Cadastrar
-                  </Link>
-                </div>
-              </div>
-            )}
+
 
           </div>
         </div>
@@ -308,25 +289,6 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
         </div>
       </section>
 
-      {/* Partner Shops */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <div className="flex items-center justify-between mb-8 px-2">
-          <h3 className="text-2xl font-black text-text-main dark:text-white">Lojas Parceiras</h3>
-          <button className="text-sm font-bold text-primary hover:text-primary-dark transition-colors flex items-center gap-1 group">
-            Ver todas <span className="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1">arrow_forward</span>
-          </button>
-        </div>
-        <div className="scrollbar-hide flex gap-6 overflow-x-auto pb-6 px-2">
-          {filteredStores.length > 0 ? (
-            filteredStores.map((store) => (
-              <StoreCard key={store.id} store={store} />
-            ))
-          ) : (
-            <div className="w-full text-center text-text-muted py-4">Carregando lojas...</div>
-          )}
-        </div>
-      </section>
-
       {/* Featured Products */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <h3 className="text-2xl font-black text-text-main dark:text-white mb-1 px-2">Destaques em {selectedCity}</h3>
@@ -350,6 +312,25 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
           <button className="rounded-full border-2 border-[#f4ebe7] dark:border-neutral-800 bg-surface-light dark:bg-surface-dark px-10 py-4 text-sm font-black text-text-main dark:text-white shadow-sm transition hover:bg-gray-50 dark:hover:bg-neutral-800 hover:border-primary active:scale-95">
             Carregar mais produtos
           </button>
+        </div>
+      </section>
+
+      {/* Partner Shops */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="flex items-center justify-between mb-8 px-2">
+          <h3 className="text-2xl font-black text-text-main dark:text-white">Lojas Parceiras</h3>
+          <button className="text-sm font-bold text-primary hover:text-primary-dark transition-colors flex items-center gap-1 group">
+            Ver todas <span className="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+          </button>
+        </div>
+        <div className="scrollbar-hide flex gap-6 overflow-x-auto pb-6 px-2">
+          {filteredStores.length > 0 ? (
+            filteredStores.map((store) => (
+              <StoreCard key={store.id} store={store} />
+            ))
+          ) : (
+            <div className="w-full text-center text-text-muted py-4">Carregando lojas...</div>
+          )}
         </div>
       </section>
     </div>

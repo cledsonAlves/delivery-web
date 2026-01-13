@@ -75,14 +75,25 @@ const Layout: React.FC<LayoutProps> = ({ children, cartCount }) => {
               )}
             </Link>
 
-            <Link to="/profile" className="flex items-center gap-1 p-1 pr-2 bg-white/20 rounded-full border border-white/30 hover:border-white transition-all hidden sm:flex">
+            {isAuthenticated ? (
+              <Link to="/profile" className="flex items-center gap-1 p-1 pr-2 bg-white/20 rounded-full border border-white/30 hover:border-white transition-all hidden sm:flex">
                 <div className="size-7 rounded-full overflow-hidden bg-white flex items-center justify-center text-[#F0623A] text-xs font-bold flex-shrink-0">
-                  {isAuthenticated && cliente ? cliente.nome.charAt(0).toUpperCase() : '?'}
-              </div>
+                  {cliente ? cliente.nome.charAt(0).toUpperCase() : '?'}
+                </div>
                 <span className="text-xs font-bold hidden md:block text-white truncate" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                  {isAuthenticated && cliente ? cliente.nome.split(' ')[0] : 'Perfil'}
+                  {cliente ? cliente.nome.split(' ')[0] : 'Usuário'}
                 </span>
-            </Link>
+              </Link>
+            ) : (
+              <Link to="/login" className="flex items-center gap-1 p-1 pr-2 bg-white/20 rounded-full border border-white/30 hover:border-white transition-all hidden sm:flex">
+                <div className="size-7 rounded-full overflow-hidden bg-white flex items-center justify-center text-[#F0623A] text-xs font-bold flex-shrink-0">
+                  <span className="material-symbols-outlined text-[14px]">account_circle</span>
+                </div>
+                <span className="text-xs font-bold hidden md:block text-white truncate" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                  Entrar
+                </span>
+              </Link>
+            )}
           </div>
         </div>
       </header>
