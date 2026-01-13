@@ -1,4 +1,5 @@
-import React, { createContext } from 'react';
+import React, { createContext, useState, ReactNode } from 'react';
+import { CITIES } from '../constants';
 
 export interface CityContextValue {
   selectedCity: string;
@@ -6,6 +7,25 @@ export interface CityContextValue {
 }
 
 export const CityContext = createContext<CityContextValue>({
-  selectedCity: 'Jarinu - SP',
+  selectedCity: CITIES[0],
   setSelectedCity: () => {},
 });
+
+interface CityProviderProps {
+  children: ReactNode;
+}
+
+export const CityProvider: React.FC<CityProviderProps> = ({ children }) => {
+  const [selectedCity, setSelectedCity] = useState<string>(CITIES[0]);
+
+  return (
+    <CityContext.Provider
+      value={{
+        selectedCity,
+        setSelectedCity,
+      }}
+    >
+      {children}
+    </CityContext.Provider>
+  );
+};

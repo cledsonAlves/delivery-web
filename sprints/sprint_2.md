@@ -10,6 +10,7 @@ curl -X 'GET' \
   "id": "925d1b27-18c0-4301-aa50-bf53b9bfb2a7",
   "cliente_id": "228e95b5-b76c-4020-8b49-654d53c98135",
   "lojista_id": "a420e219-ea32-42cb-b8a8-b5980a444191",
+  
   "status": "pendente",
   "subtotal": "10500.00",
   "taxa_entrega": "10.00",

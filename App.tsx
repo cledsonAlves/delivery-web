@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import { Product, CartItem } from './types';
 import { AuthProvider } from './context/AuthContext';
+import { CityProvider } from './context/CityContext';
 
 const App: React.FC = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -39,6 +40,7 @@ const App: React.FC = () => {
 
   return (
       <AuthProvider>
+        <CityProvider>
         <HashRouter>
       <Layout cartCount={cartCount}>
         <Routes>
@@ -62,6 +64,7 @@ const App: React.FC = () => {
         </Routes>
       </Layout>
         </HashRouter>
+        </CityProvider>
       </AuthProvider>
   );
 };

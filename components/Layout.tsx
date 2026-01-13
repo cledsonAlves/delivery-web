@@ -13,12 +13,11 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children, cartCount }) => {
   const location = useLocation();
   const { cliente, isAuthenticated } = useContext(AuthContext);
+  const { selectedCity, setSelectedCity } = useContext(CityContext);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [selectedCity, setSelectedCity] = useState<string>(CITIES[0]);
 
   return (
-    <CityContext.Provider value={{ selectedCity, setSelectedCity }}>
-      <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-[#F0623A] shadow-lg transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
@@ -45,7 +44,6 @@ const Layout: React.FC<LayoutProps> = ({ children, cartCount }) => {
                   </option>
                 ))}
               </select>
-              <span className="material-symbols-outlined text-white/60 text-[18px] pointer-events-none">expand_more</span>
             </div>
 
             <div className="flex-1 relative group max-w-md hidden sm:block">
@@ -110,8 +108,7 @@ const Layout: React.FC<LayoutProps> = ({ children, cartCount }) => {
           <p className="text-xs text-text-muted opacity-60">© 2026 Regional Shopee.  para nossa cidade.</p>
         </div>
       </footer>
-      </div>
-    </CityContext.Provider>
+    </div>
   );
 };
 
