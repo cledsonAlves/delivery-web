@@ -14,8 +14,10 @@ const StoreCard: React.FC<StoreCardProps> = ({ store }) => {
       className="flex min-w-[280px] sm:min-w-[320px] flex-col gap-4 rounded-3xl bg-surface-light dark:bg-surface-dark p-5 shadow-sm ring-1 ring-[#f4ebe7] dark:ring-neutral-800 transition-all hover:shadow-xl hover:-translate-y-1"
     >
       <div className="flex items-center gap-4">
-        <div className="size-16 shrink-0 overflow-hidden rounded-2xl bg-white border border-gray-100 dark:border-neutral-700 shadow-sm">
-          <img src={store.logo} alt={store.name} className="w-full h-full object-cover" />
+        <div className="size-16 shrink-0 rounded-2xl bg-primary text-white flex items-center justify-center shadow-sm">
+          <span className="text-xl font-black">
+            {store.name?.charAt(0).toUpperCase()}
+          </span>
         </div>
         <div className="flex flex-col gap-1">
           <h4 className="font-bold text-text-main dark:text-white leading-tight">{store.name}</h4>

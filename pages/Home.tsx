@@ -10,6 +10,12 @@ import api from '../services/api';
 import { CityContext } from '../context/CityContext';
 import { AuthContext } from '../context/AuthContext';
 
+interface TimeLeft {
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
 interface HomeProps {
   addToCart: (product: Product) => void;
 }
@@ -19,8 +25,32 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [stores, setStores] = useState<Store[]>([]);
   const [loading, setLoading] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>({ hours: 23, minutes: 59, seconds: 59 });
   const { selectedCity } = useContext(CityContext);
   const { cliente, isAuthenticated, logout } = useContext(AuthContext);
+
+  // Countdown timer for flash sale
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        let { hours, minutes, seconds } = prev;
+        seconds--;
+        if (seconds < 0) {
+          seconds = 59;
+          minutes--;
+          if (minutes < 0) {
+            minutes = 59;
+            hours--;
+            if (hours < 0) {
+              hours = 23;
+            }
+          }
+        }
+        return { hours, minutes, seconds };
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     let mounted = true;
@@ -135,29 +165,6 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
 
   return (
     <div className="pb-12">
-      {/* Top Banner Strip - Shopee Style */}
-      <section className="bg-gradient-to-r from-primary via-orange-500 to-red-500 py-2">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center gap-8 text-white text-sm font-semibold overflow-x-auto scrollbar-hide">
-            <div className="flex items-center gap-2 whitespace-nowrap">
-              <span className="material-symbols-outlined text-yellow-300 text-lg filled">local_fire_department</span>
-              <span>Ofertas do Dia</span>
-            </div>
-            <div className="flex items-center gap-2 whitespace-nowrap">
-              <span className="material-symbols-outlined text-green-300 text-lg">local_shipping</span>
-              <span>Frete Grátis</span>
-            </div>
-            <div className="flex items-center gap-2 whitespace-nowrap">
-              <span className="material-symbols-outlined text-blue-300 text-lg">volunteer_activism</span>
-              <span>Cashback até 20%</span>
-            </div>
-            <div className="flex items-center gap-2 whitespace-nowrap">
-              <span className="material-symbols-outlined text-purple-300 text-lg">bolt</span>
-              <span>Entrega Rápida</span>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Main Banner Section - Shopee Inspired */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -187,29 +194,48 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
 
           {/* Right Sidebar - Quick Actions */}
           <div className="hidden lg:block lg:col-span-3 space-y-4">
-            {/* Quick User/Login/Register */}
-            {isAuthenticated && cliente ? (
-              <div className="bg-surface-light dark:bg-surface-dark rounded-2xl p-6 shadow-sm ring-1 ring-[#f4ebe7] dark:ring-neutral-800 text-center">
-                <div className="mb-4">
-                  <div className="w-16 h-16 mx-auto bg-primary rounded-full flex items-center justify-center text-white text-2xl font-black">
-                    {cliente.nome.charAt(0).toUpperCase()}
+            {/* Flash Sale / Ofertas Relâmpago */}
+            <div className="bg-gradient-to-br from-red-600 via-orange-500 to-yellow-500 rounded-2xl p-5 shadow-lg ring-1 ring-red-300 text-white overflow-hidden relative">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full blur-3xl"></div>
+              <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="material-symbols-outlined text-2xl filled animate-pulse">flash_on</span>
+                  <h4 className="font-black text-lg">Ofertas Relâmpago</h4>
+                </div>
+                <p className="text-xs opacity-90 mb-3">Até {timeLeft.hours}h de descontos!</p>
+                
+                {/* Countdown Timer */}
+                <div className="bg-black/30 rounded-xl p-3 backdrop-blur-sm mb-4">
+                  <div className="grid grid-cols-3 gap-2 text-center">
+                    <div>
+                      <div className="bg-white/20 rounded-lg py-2 px-1 font-black text-xl">
+                        {String(timeLeft.hours).padStart(2, '0')}
+                      </div>
+                      <span className="text-xs mt-1 opacity-80">Horas</span>
+                    </div>
+                    <div>
+                      <div className="bg-white/20 rounded-lg py-2 px-1 font-black text-xl">
+                        {String(timeLeft.minutes).padStart(2, '0')}
+                      </div>
+                      <span className="text-xs mt-1 opacity-80">Min</span>
+                    </div>
+                    <div>
+                      <div className="bg-white/20 rounded-lg py-2 px-1 font-black text-xl">
+                        {String(timeLeft.seconds).padStart(2, '0')}
+                      </div>
+                      <span className="text-xs mt-1 opacity-80">Seg</span>
+                    </div>
                   </div>
                 </div>
-                <h4 className="font-bold text-text-main dark:text-white mb-1">Olá, {cliente.nome.split(' ')[0]}!</h4>
-                <p className="text-xs text-text-muted mb-4">Acesse seu perfil ou sair</p>
-                <div className="space-y-2">
-                  <Link to="/profile" className="block w-full bg-primary text-white px-4 py-2 rounded-xl font-semibold text-sm hover:bg-primary-dark transition-colors">
-                    Meu Perfil
-                  </Link>
-                  <button
-                    onClick={() => logout()}
-                    className="w-full border border-[#f4ebe7] dark:border-neutral-800 text-text-main dark:text-white px-4 py-2 rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors"
-                  >
-                    Sair
-                  </button>
-                </div>
+                
+                <button className="w-full bg-white text-red-600 font-black py-2 rounded-xl hover:bg-gray-100 transition-colors text-sm">
+                  Ver Ofertas
+                </button>
               </div>
-            ) : (
+            </div>
+
+            {/* Quick User/Login/Register */}
+            {!isAuthenticated && (
               <div className="bg-surface-light dark:bg-surface-dark rounded-2xl p-6 shadow-sm ring-1 ring-[#f4ebe7] dark:ring-neutral-800 text-center">
                 <div className="mb-4">
                   <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
@@ -229,58 +255,13 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
               </div>
             )}
 
-            {/* Mini Offers */}
-            <div className="grid grid-cols-2 gap-2">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-3 text-white text-center">
-                <span className="material-symbols-outlined text-2xl mb-1 filled">savings</span>
-                <p className="text-xs font-bold">Cupons</p>
-              </div>
-              <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-3 text-white text-center">
-                <span className="material-symbols-outlined text-2xl mb-1">local_shipping</span>
-                <p className="text-xs font-bold">Grátis</p>
-              </div>
-            </div>
           </div>
         </div>
 
-        {/* Search Bar Below Banner */}
-        <div className="mt-6 max-w-4xl mx-auto">
-          <label className="relative flex h-14 w-full items-center rounded-2xl bg-white dark:bg-surface-dark shadow-lg ring-1 ring-[#f4ebe7] dark:ring-neutral-800 focus-within:ring-2 focus-within:ring-primary/50 transition-all p-2">
-            <div className="flex h-full w-12 items-center justify-center text-text-muted">
-              <span className="material-symbols-outlined">search</span>
-            </div>
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="h-full w-full border-none bg-transparent pr-4 text-sm text-text-main dark:text-white placeholder-text-muted focus:outline-none focus:ring-0"
-              placeholder="Busque por produtos, lojas ou categorias..."
-            />
-            <button className="h-full rounded-xl bg-primary px-6 text-sm font-bold text-white transition hover:bg-primary-dark active:scale-95">
-              Buscar
-            </button>
-          </label>
-        </div>
+        {/* Search Bar Removed for cleaner UI */}
       </section>
 
-      {/* Flash Sale Banner */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div className="bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 rounded-2xl p-4 flex items-center justify-between shadow-lg">
-          <div className="flex items-center gap-4">
-            <div className="bg-white/90 backdrop-blur-sm rounded-xl p-3">
-              <span className="material-symbols-outlined text-red-500 text-3xl filled">local_fire_department</span>
-            </div>
-            <div className="text-white">
-              <h3 className="text-xl font-black">OFERTAS RELÂMPAGO</h3>
-              <p className="text-sm font-medium opacity-90">Descontos de até 50% • Tempo limitado!</p>
-            </div>
-          </div>
-          <button className="hidden sm:flex bg-white text-primary px-6 py-3 rounded-xl font-bold hover:bg-gray-100 transition-colors items-center gap-2">
-            Ver Todas
-            <span className="material-symbols-outlined">arrow_forward</span>
-          </button>
-        </div>
-      </section>
+      {/* Flash Sale Banner removed for cleaner UI */}
 
       {/* Back to School - Papelaria Papelao */}
       {papelaoStore && (

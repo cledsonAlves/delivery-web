@@ -20,68 +20,68 @@ const Layout: React.FC<LayoutProps> = ({ children, cartCount }) => {
     <CityContext.Provider value={{ selectedCity, setSelectedCity }}>
       <div className="flex flex-col min-h-screen">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-surface-light/95 dark:bg-surface-dark/95 backdrop-blur-md border-b border-[#f4ebe7] dark:border-neutral-800 transition-colors duration-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <header className="sticky top-0 z-50 bg-[#F0623A] shadow-lg transition-colors duration-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 group">
-            <div className="size-10 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/30 transition-transform group-hover:scale-110">
-              <span className="material-symbols-outlined filled">storefront</span>
+          <Link to="/" className="flex items-center gap-3 group flex-shrink-0">
+            <div className="size-12 bg-white/20 rounded-xl flex items-center justify-center text-white shadow-lg transition-transform group-hover:scale-110">
+              <span className="material-symbols-outlined text-3xl">shopping_bag</span>
             </div>
-            <h1 className="text-xl font-extrabold tracking-tight text-text-main dark:text-white hidden sm:block">Regional Shopee</h1>
+            <h1 className="text-xl font-extrabold tracking-tight text-white hidden sm:block" style={{ fontFamily: 'Montserrat, sans-serif' }}>Regional Shopee</h1>
           </Link>
 
           {/* Location & Search */}
           <div className="flex-1 flex items-center justify-center gap-4 max-w-2xl px-4">
-            <div className="hidden lg:flex items-center gap-2 rounded-full bg-background-light dark:bg-neutral-800 py-2.5 px-5 shadow-sm ring-1 ring-inset ring-gray-100 dark:ring-neutral-700 transition hover:ring-primary">
-              <span className="material-symbols-outlined text-primary text-[20px]">location_on</span>
+            <div className="hidden lg:flex items-center gap-2 rounded-full bg-white/20 py-2.5 px-5 shadow-sm ring-1 ring-inset ring-white/30 transition hover:bg-white/30">
+              <span className="material-symbols-outlined text-white text-[20px]">location_on</span>
               <select
                 value={selectedCity}
                 onChange={(e) => setSelectedCity(e.target.value)}
-                className="bg-transparent border-none outline-none text-sm font-bold text-text-main dark:text-white"
+                className="bg-transparent border-none outline-none text-sm font-bold text-white placeholder:text-white/60 appearance-none cursor-pointer"
               >
                 {CITIES.map((c) => (
-                  <option key={c} value={c} className="text-text-main dark:text-white">
+                  <option key={c} value={c} className="text-[#1A1A1A] bg-white">
                     {c}
                   </option>
                 ))}
               </select>
-              <span className="material-symbols-outlined text-gray-400 text-[18px]">expand_more</span>
+              <span className="material-symbols-outlined text-white/60 text-[18px] pointer-events-none">expand_more</span>
             </div>
 
             <div className="flex-1 relative group max-w-md hidden sm:block">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted material-symbols-outlined group-focus-within:text-primary">search</span>
+              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 material-symbols-outlined group-focus-within:text-white">search</span>
               <input 
                 type="text" 
                 placeholder="O que você procura hoje?"
-                className="w-full bg-background-light dark:bg-neutral-800 border-none rounded-2xl py-3 pl-12 pr-4 text-sm font-medium focus:ring-2 focus:ring-primary/40 transition-all placeholder:text-text-muted/60"
+                className="w-full bg-white/20 border-none rounded-2xl py-3 pl-12 pr-4 text-sm font-medium text-white placeholder:text-white/60 focus:ring-2 focus:ring-white/40 transition-all"
               />
             </div>
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-2 sm:gap-4">
-            <button className="sm:hidden p-2 text-text-muted" onClick={() => setIsSearchOpen(!isSearchOpen)}>
+          <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+            <button className="sm:hidden p-1.5 text-white/80 hover:text-white transition-colors text-[20px]" onClick={() => setIsSearchOpen(!isSearchOpen)}>
               <span className="material-symbols-outlined">search</span>
             </button>
             
-            <Link to="/orders" className="p-2 text-text-muted hover:text-primary transition-colors hidden sm:block">
+            <Link to="/orders" className="p-1.5 text-white/80 hover:text-white transition-colors hidden sm:block text-[20px]">
               <span className="material-symbols-outlined">package_2</span>
             </Link>
 
-            <Link to="/checkout" className="relative p-2.5 bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-all">
+            <Link to="/checkout" className="relative p-1.5 bg-white/20 text-white rounded-full hover:bg-white/30 transition-all text-[20px]">
               <span className="material-symbols-outlined filled">shopping_cart</span>
               {cartCount > 0 && (
-                <span className="absolute top-0 right-0 size-5 bg-primary text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-surface-light dark:border-surface-dark">
+                <span className="absolute -top-1 -right-1 size-5 bg-white text-[#F0623A] text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-[#F0623A]">
                   {cartCount}
                 </span>
               )}
             </Link>
 
-            <Link to="/profile" className="flex items-center gap-2 p-1 pr-3 bg-surface-light dark:bg-neutral-800 rounded-full border border-[#f4ebe7] dark:border-neutral-700 hover:border-primary transition-all">
-                <div className="size-8 rounded-full overflow-hidden bg-primary flex items-center justify-center text-white text-sm font-bold">
+            <Link to="/profile" className="flex items-center gap-1 p-1 pr-2 bg-white/20 rounded-full border border-white/30 hover:border-white transition-all hidden sm:flex">
+                <div className="size-7 rounded-full overflow-hidden bg-white flex items-center justify-center text-[#F0623A] text-xs font-bold flex-shrink-0">
                   {isAuthenticated && cliente ? cliente.nome.charAt(0).toUpperCase() : '?'}
               </div>
-                <span className="text-xs font-bold hidden md:block">
+                <span className="text-xs font-bold hidden md:block text-white truncate" style={{ fontFamily: 'Montserrat, sans-serif' }}>
                   {isAuthenticated && cliente ? cliente.nome.split(' ')[0] : 'Perfil'}
                 </span>
             </Link>
