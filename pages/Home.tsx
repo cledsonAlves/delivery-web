@@ -8,6 +8,7 @@ import PromoSlider from '../components/PromoSlider';
 import { Product, Store } from '../types';
 import api from '../services/api';
 import { CityContext } from '../context/CityContext';
+import { AuthContext } from '../context/AuthContext';
 
 interface HomeProps {
   addToCart: (product: Product) => void;
@@ -19,6 +20,7 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
   const [stores, setStores] = useState<Store[]>([]);
   const [loading, setLoading] = useState(false);
   const { selectedCity } = useContext(CityContext);
+  const { cliente, isAuthenticated, logout } = useContext(AuthContext);
 
   useEffect(() => {
     let mounted = true;
@@ -185,24 +187,47 @@ const Home: React.FC<HomeProps> = ({ addToCart }) => {
 
           {/* Right Sidebar - Quick Actions */}
           <div className="hidden lg:block lg:col-span-3 space-y-4">
-            {/* Quick Login/Register */}
-            <div className="bg-surface-light dark:bg-surface-dark rounded-2xl p-6 shadow-sm ring-1 ring-[#f4ebe7] dark:ring-neutral-800 text-center">
-              <div className="mb-4">
-                <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
-                  <span className="material-symbols-outlined text-primary text-3xl">person</span>
+            {/* Quick User/Login/Register */}
+            {isAuthenticated && cliente ? (
+              <div className="bg-surface-light dark:bg-surface-dark rounded-2xl p-6 shadow-sm ring-1 ring-[#f4ebe7] dark:ring-neutral-800 text-center">
+                <div className="mb-4">
+                  <div className="w-16 h-16 mx-auto bg-primary rounded-full flex items-center justify-center text-white text-2xl font-black">
+                    {cliente.nome.charAt(0).toUpperCase()}
+                  </div>
+                </div>
+                <h4 className="font-bold text-text-main dark:text-white mb-1">Olá, {cliente.nome.split(' ')[0]}!</h4>
+                <p className="text-xs text-text-muted mb-4">Acesse seu perfil ou sair</p>
+                <div className="space-y-2">
+                  <Link to="/profile" className="block w-full bg-primary text-white px-4 py-2 rounded-xl font-semibold text-sm hover:bg-primary-dark transition-colors">
+                    Meu Perfil
+                  </Link>
+                  <button
+                    onClick={() => logout()}
+                    className="w-full border border-[#f4ebe7] dark:border-neutral-800 text-text-main dark:text-white px-4 py-2 rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors"
+                  >
+                    Sair
+                  </button>
                 </div>
               </div>
-              <h4 className="font-bold text-text-main dark:text-white mb-2">Bem-vindo!</h4>
-              <p className="text-xs text-text-muted mb-4">Faça login ou cadastre-se</p>
-              <div className="space-y-2">
-                <button className="w-full bg-primary text-white px-4 py-2 rounded-xl font-semibold text-sm hover:bg-primary-dark transition-colors">
-                  Entrar
-                </button>
-                <button className="w-full border border-[#f4ebe7] dark:border-neutral-800 text-text-main dark:text-white px-4 py-2 rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
-                  Cadastrar
-                </button>
+            ) : (
+              <div className="bg-surface-light dark:bg-surface-dark rounded-2xl p-6 shadow-sm ring-1 ring-[#f4ebe7] dark:ring-neutral-800 text-center">
+                <div className="mb-4">
+                  <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center">
+                    <span className="material-symbols-outlined text-primary text-3xl">person</span>
+                  </div>
+                </div>
+                <h4 className="font-bold text-text-main dark:text-white mb-2">Bem-vindo!</h4>
+                <p className="text-xs text-text-muted mb-4">Faça login ou cadastre-se</p>
+                <div className="space-y-2">
+                  <Link to="/login" className="block w-full bg-primary text-white px-4 py-2 rounded-xl font-semibold text-sm hover:bg-primary-dark transition-colors">
+                    Entrar
+                  </Link>
+                  <Link to="/register" className="block w-full border border-[#f4ebe7] dark:border-neutral-800 text-text-main dark:text-white px-4 py-2 rounded-xl font-semibold text-sm hover:bg-gray-50 dark:hover:bg-neutral-800 transition-colors">
+                    Cadastrar
+                  </Link>
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Mini Offers */}
             <div className="grid grid-cols-2 gap-2">

@@ -38,6 +38,22 @@ export interface Offer {
   atualizado_em: string;
 }
 
+export interface Cliente {
+  id?: string;
+  nome: string;
+  email: string;
+  telefone: string;
+  cpf: string;
+  endereco: string;
+  cidade: string;
+  estado: string;
+  cep: string;
+  data_nascimento?: string;
+  ativo?: boolean;
+  criado_em?: string;
+  atualizado_em?: string;
+}
+
 export interface Product {
   id: string;
   storeId: string;

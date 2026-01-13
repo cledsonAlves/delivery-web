@@ -1,8 +1,9 @@
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { CITIES } from '../constants';
 import { Link, useLocation } from 'react-router-dom';
 import { CityContext } from '../context/CityContext';
+import { AuthContext } from '../context/AuthContext';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -11,6 +12,7 @@ interface LayoutProps {
 
 const Layout: React.FC<LayoutProps> = ({ children, cartCount }) => {
   const location = useLocation();
+  const { cliente, isAuthenticated } = useContext(AuthContext);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [selectedCity, setSelectedCity] = useState<string>(CITIES[0]);
 
@@ -76,10 +78,12 @@ const Layout: React.FC<LayoutProps> = ({ children, cartCount }) => {
             </Link>
 
             <Link to="/profile" className="flex items-center gap-2 p-1 pr-3 bg-surface-light dark:bg-neutral-800 rounded-full border border-[#f4ebe7] dark:border-neutral-700 hover:border-primary transition-all">
-              <div className="size-8 rounded-full overflow-hidden bg-gray-200">
-                <img src="https://picsum.photos/seed/user/100" alt="Avatar" className="w-full h-full object-cover" />
+                <div className="size-8 rounded-full overflow-hidden bg-primary flex items-center justify-center text-white text-sm font-bold">
+                  {isAuthenticated && cliente ? cliente.nome.charAt(0).toUpperCase() : '?'}
               </div>
-              <span className="text-xs font-bold hidden md:block">Perfil</span>
+                <span className="text-xs font-bold hidden md:block">
+                  {isAuthenticated && cliente ? cliente.nome.split(' ')[0] : 'Perfil'}
+                </span>
             </Link>
           </div>
         </div>

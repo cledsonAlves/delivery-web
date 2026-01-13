@@ -7,7 +7,10 @@ import Checkout from './pages/Checkout';
 import Profile from './pages/Profile';
 import ProductDetail from './pages/ProductDetail';
 import StorePage from './pages/StorePage';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import { Product, CartItem } from './types';
+import { AuthProvider } from './context/AuthContext';
 
 const App: React.FC = () => {
   const [cart, setCart] = useState<CartItem[]>([]);
@@ -35,10 +38,13 @@ const App: React.FC = () => {
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <HashRouter>
+      <AuthProvider>
+        <HashRouter>
       <Layout cartCount={cartCount}>
         <Routes>
           <Route path="/" element={<Home addToCart={addToCart} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route 
             path="/checkout" 
             element={
@@ -50,12 +56,13 @@ const App: React.FC = () => {
             } 
           />
           <Route path="/product/:id" element={<ProductDetail addToCart={addToCart} />} />
-                    <Route path="/store/:id" element={<StorePage addToCart={addToCart} />} />
+          <Route path="/store/:id" element={<StorePage addToCart={addToCart} />} />
           <Route path="/orders" element={<div className="p-10 text-center text-text-muted">Em breve: Meus Pedidos</div>} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
       </Layout>
-    </HashRouter>
+        </HashRouter>
+      </AuthProvider>
   );
 };
 

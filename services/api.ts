@@ -71,6 +71,18 @@ export async function listarOfertas(skip = 0, limit = 50) {
   return await apiRequest<any>('GET', `/offers/?${params.toString()}`);
 }
 
+export async function criarCliente(payload: any) {
+  return await apiRequest<any>('POST', '/clientes/', payload);
+}
+
+export async function obterClientePorEmail(email: string) {
+  return await apiRequest<any>('GET', `/clientes/email/${encodeURIComponent(email)}`);
+}
+
+export async function obterClientePorCpf(cpf: string) {
+  return await apiRequest<any>('GET', `/clientes/cpf/${encodeURIComponent(cpf)}`);
+}
+
 export default {
   API_URL,
   apiRequest,
@@ -81,4 +93,7 @@ export default {
   obterLojista,
   listarImagensProduto,
   listarOfertas,
+  criarCliente,
+  obterClientePorEmail,
+  obterClientePorCpf,
 };

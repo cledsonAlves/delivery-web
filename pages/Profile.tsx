@@ -1,16 +1,32 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 const Profile: React.FC = () => {
+  const { cliente, isAuthenticated, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  // Redirecionar para login se não estiver autenticado
+  if (!isAuthenticated || !cliente) {
+    navigate('/login');
+    return null;
+  }
+
+  const maskCPF = (cpf: string) => {
+    if (!cpf) return '***.***.***-**';
+    const cleaned = cpf.replace(/\D/g, '');
+    if (cleaned.length !== 11) return cpf;
+    return `***.${cleaned.substring(3, 6)}.${cleaned.substring(6, 9)}-**`;
+  };
+
   const user = {
-    name: 'Maria Silva',
-    location: 'Jarinu, SP',
-    email: 'maria.silva@email.com',
-    phone: '(11) 98765-4321',
-    cpfMasked: '***.456.789-**',
-    status: 'Membro Ativo',
-    avatar:
-      'https://lh3.googleusercontent.com/aida-public/AB6AXuCO-YcNhzm2YFz1IvolWtlacWX5BHKE_8hMCKayzhYtLWL6C0L6kRzODz0DoYpB3RZONSTJxifQeWYbcihY9t_FYzEF1kAxw7Szl-ZYtdr6qzzGKubVHk6Nft9uBX-tNQOPmc8iKJx4YmzjZNBbDb7vSkoerpR20RzMXv9a2QfXfWJYzHJttxxgIYZh12aflnzoT83XA0E0ylEjGU5oXPeRdYFEDIFRtm0JaM2QiG9R5USz9hU-3PZiJUEum31DrXmJlTg68BDnClvN',
+    name: cliente.nome,
+    location: cliente.cidade && cliente.estado ? `${cliente.cidade}, ${cliente.estado}` : 'Localização não definida',
+    email: cliente.email,
+    phone: cliente.telefone || 'Não informado',
+    cpfMasked: maskCPF(cliente.cpf),
+    status: cliente.ativo ? 'Membro Ativo' : 'Inativo',
+    avatar: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(cliente.nome) + '&background=FF6B35&color=fff&size=128',
   };
 
   const navItems = [
@@ -21,20 +37,21 @@ const Profile: React.FC = () => {
     { label: 'Ajuda e Suporte', icon: 'support_agent', active: false },
   ];
 
-  const addresses = [
-    {
-      title: 'Casa',
-      icon: 'home',
-      lines: ['Rua das Flores, 123', 'Jardim Primavera', 'Jarinu - SP, 13240-000'],
-      primary: true,
-    },
-    {
-      title: 'Trabalho',
-      icon: 'work',
-      lines: ['Av. Principal, 500, Sala 12', 'Centro', 'Jarinu - SP, 13240-000'],
-      primary: false,
-    },
-  ];
+    const addresses = [];
+  
+    // Adicionar endereço do cliente se existir
+    if (cliente.endereco) {
+      addresses.push({
+        title: 'Principal',
+        icon: 'home',
+        lines: [
+          cliente.endereco,
+          cliente.cidade || '',
+          `${cliente.cidade || ''} - ${cliente.estado || ''}, ${cliente.cep || ''}`.trim(),
+        ].filter(line => line),
+        primary: true,
+      });
+    }
 
   const walletCard = {
     brand: 'Nubank',
@@ -90,7 +107,13 @@ const Profile: React.FC = () => {
                 </button>
               ))}
               <div className="h-px bg-[#f4ebe7] dark:bg-neutral-800 my-1" />
-              <button className="flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 transition-all text-left">
+                <button 
+                  onClick={() => {
+                    logout();
+                    navigate('/');
+                  }}
+                  className="flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 dark:hover:bg-red-900/10 transition-all text-left"
+                >
                 <span className="material-symbols-outlined">logout</span>
                 <span className="font-medium">Sair da conta</span>
               </button>
