@@ -16,7 +16,7 @@ import { AuthProvider } from './context/AuthContext';
 import { CityProvider } from './context/CityContext';
 
 // Inicializa o SDK do Mercado Pago com uma chave de teste
-initMercadoPago('TEST-9568abd0-c1f6-490c-8908-3d14d6a88ada', {
+initMercadoPago('', {
   locale: 'pt-BR'
 });
 
